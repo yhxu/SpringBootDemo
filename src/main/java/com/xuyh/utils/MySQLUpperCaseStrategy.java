@@ -12,13 +12,13 @@ import org.springframework.stereotype.Component;
  * @Version:
  */
 @Component
-public class MySQLToPhysicalUpperCaseStrategy extends PhysicalNamingStrategyStandardImpl{
+public class MySQLUpperCaseStrategy extends PhysicalNamingStrategyStandardImpl{
+
     private static final long serialVersionUID = 1383021413247872469L;
 
     @Override
     public Identifier toPhysicalTableName(Identifier name, JdbcEnvironment context) {
-        String tableName = name.getText().toUpperCase();
-        return name.toIdentifier(tableName);
+        return Identifier.toIdentifier(name.getText().toUpperCase());
     }
 
 }
