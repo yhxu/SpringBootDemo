@@ -2,6 +2,8 @@ package com.xuyh.controller;
 
 import com.xuyh.model.UserModel;
 import com.xuyh.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +18,7 @@ import java.util.List;
  */
 @RestController
 public class UserController {
+    Logger mLogger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService mUserService;
     @PostMapping(value = "getAllUsers")
@@ -26,5 +29,12 @@ public class UserController {
             userInfo += user.toString();
         }
         return userInfo;
+    }
+
+    @PostMapping(value = "getUserById", params = "UserId")
+    public String getUserById(String UserId){
+        mLogger.info("请求----------------");
+        UserModel user = mUserService.getUserByid(UserId);
+        return user.toString();
     }
 }

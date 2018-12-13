@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 
 /**
@@ -15,7 +16,7 @@ import javax.persistence.Table;
  */
 @Table(name = "USER")
 @Entity
-public class UserModel {
+public class UserModel implements Serializable{
 
     private String UserId     = "";
     private String UserName   = "";
