@@ -16,13 +16,11 @@ import javax.persistence.Table;
 @Table(name = "USER")
 @Entity
 public class UserModel {
-    @Id
+
     private String UserId     = "";
-    @Column(nullable = false)
     private String UserName   = "";
     private int    UserAge    = 0;
     private String UserSex    = "";
-    @Column(name = "UserCardId", length =18, unique = true)
     private String UserCardId = "";
     private String UserPhoneNumber = "";
     private String UserMail   = "";
@@ -40,6 +38,7 @@ public class UserModel {
                 '}';
     }
 
+    @Id
     public String getUserId() {
         return UserId;
     }
@@ -48,6 +47,7 @@ public class UserModel {
         UserId = userId;
     }
 
+    @Column(nullable = false)
     public String getUserName() {
         return UserName;
     }
@@ -72,6 +72,7 @@ public class UserModel {
         UserSex = userSex;
     }
 
+    @Column(name = "UserCardId", length =18, unique = true)
     public String getUserCardId() {
         return UserCardId;
     }
