@@ -62,4 +62,13 @@ public class UserService {
         return mUserRepository.findAll(pageable).getContent();
     }
 
+    @Transactional
+    public int updateUserNameById(String UserName, String UserId){
+        return mUserRepository.updateUserNameById4SQL(UserName, UserId);
+    }
+
+    @Transactional
+    public int deleteUserById(String UserId){
+        return mUserRepository.deleteUserById4SQL(UserId);
+    }
 }

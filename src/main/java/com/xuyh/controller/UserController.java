@@ -56,4 +56,14 @@ public class UserController {
         }
         return userName;
     }
+
+    @PostMapping(value = "updateUserNameById", params = {"UserName","UserId"})
+    public int getUserById(String UserName, String UserId){
+        return mUserService.updateUserNameById(UserName, UserId);
+    }
+
+    @PostMapping(value = "deleteUserById", params = "UserId")
+    public int deleteUserById(String UserId){
+        return mUserService.deleteUserById(UserId);
+    }
 }
