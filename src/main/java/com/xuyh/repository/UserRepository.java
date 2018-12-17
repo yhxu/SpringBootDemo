@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -48,7 +49,7 @@ public interface UserRepository extends JpaRepository<UserModel, String>{
      * @Description: 自定义更新语句
      * @Date: 16:54 2018/12/14
      */
-    // @Transactional //用于提交事务，若没有带上这句，会报事务异常提示。次注释也可以转移到service层或者controller层
+    @Transactional //用于提交事务，若没有带上这句，会报事务异常提示。
     @Modifying(flushAutomatically = true) // 自动刷新实体里保存的数据。
     @Query(value = "UPDATE USER SET UserName = :UserName WHERE UserId = :UserId", nativeQuery = true)
     int updateUserNameById4SQL(@Param("UserName") String UserName, @Param("UserId") String UserId);
@@ -58,7 +59,7 @@ public interface UserRepository extends JpaRepository<UserModel, String>{
      * @Description: 自定义删除语句
      * @Date: 16:54 2018/12/14
      */
-    // @Transactional //用于提交事务，若没有带上这句，会报事务异常提示。次注释也可以转移到service层或者controller层
+    @Transactional //用于提交事务，若没有带上这句，会报事务异常提示。
     @Modifying(clearAutomatically = true) // 自动删除实体里保存的数据。
     @Query(value = "DELETE FROM USER WHERE UserId = ?1", nativeQuery = true)
     int deleteUserById4SQL(String UserId);
