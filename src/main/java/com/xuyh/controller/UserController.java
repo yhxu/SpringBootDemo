@@ -6,7 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -43,7 +47,14 @@ public class UserController {
 
     @PostMapping(value = "getUserById", params = "UserId")
     public String getUserById(String UserId){
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        String headerTest = request.getHeader("TEST");
+        mLogger.info("获取 HttpServletRequest 测试：" + headerTest);
+        HttpSession session = request.getSession();
+        String sessionTest = session.getId();
+        mLogger.info("获取 HttpSession 测试：" + sessionTest);
         UserModel user = mUserService.getUserById(UserId);
+
         return user.toString();
     }
     @RequestMapping(value = "getUserNameById", params = {"UserId","QueryType"}, method = RequestMethod.POST)
