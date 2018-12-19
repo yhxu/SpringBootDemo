@@ -10,10 +10,25 @@ import org.slf4j.LoggerFactory;
  * @Date: 2018/12/18
  * @Version:
  */
-@MyAnnotation("myBeans2")
+@MyAnnotation(value = "myBeans2")
 public class MyBeans2 implements Beans{
     Logger mLogger = LoggerFactory.getLogger(MyBeans2.class);
+    @Override
     public void init(){
-        mLogger.info(this.toString());
+        mLogger.info(this.toString()+"init");
+    }
+
+    @Override
+    public void destroy() {
+        mLogger.info(this.toString()+"destroy");
+    }
+
+    @Override
+    public void process() {
+        mLogger.info(this.toString()+"process");
+    }
+
+    public String process(String str, int i) {
+        return this.toString()+"process " + str + i;
     }
 }

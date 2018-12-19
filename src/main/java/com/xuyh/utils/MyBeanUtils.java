@@ -2,12 +2,14 @@ package com.xuyh.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
@@ -17,14 +19,14 @@ import java.util.Map;
  * @Version:
  */
 @Component
-public class BeanUtils implements ApplicationContextAware{
-    private Logger mLogger = LoggerFactory.getLogger(BeanUtils.class);
+public class MyBeanUtils extends BeanUtils implements ApplicationContextAware{
+    private Logger mLogger = LoggerFactory.getLogger(MyBeanUtils.class);
     private static ApplicationContext applicationContext;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if(BeanUtils.applicationContext == null){
-            BeanUtils.applicationContext = applicationContext;
+        if(MyBeanUtils.applicationContext == null){
+            MyBeanUtils.applicationContext = applicationContext;
         }
         mLogger.info("ApplicationContext config success!");
     }
@@ -44,9 +46,9 @@ public class BeanUtils implements ApplicationContextAware{
         return getApplicationContext().getBean(clazz);
     }
 
-    //通过name,以及Clazz返回指定的Bean
-    public static <T> T getBean(String name, Class<T> clazz){
-        return getApplicationContext().getBean(name, clazz);
+    //通过method name,以及Clazz返回指定的method
+    public static Method getBeanMethod(Class<?> clazz, String name, Class... paramTypes){
+        return findMethod(clazz, name, paramTypes);
     }
 
     public static Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType){

@@ -11,4 +11,6 @@ import com.xuyh.interfaces.MyAnnotation;
 @MyAnnotation
 public interface Beans {
     void init();
+    void destroy();
+    void process();
 }
