@@ -1,6 +1,6 @@
 package com.xuyh.beans;
 
-import com.xuyh.interfaces.MyAnnotation;
+import com.xuyh.annotation.MyAnnotation;
 
 /**
  * @Author: XUYH

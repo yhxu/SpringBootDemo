@@ -2,7 +2,7 @@ package com.xuyh.controller;
 
 import com.xuyh.beans.Beans;
 import com.xuyh.beans.MyBeans2;
-import com.xuyh.interfaces.MyAnnotation;
+import com.xuyh.annotation.MyAnnotation;
 import com.xuyh.utils.MyBeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
