@@ -1,5 +1,6 @@
 package com.xuyh.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.xuyh.model.UserModel;
 import com.xuyh.service.UserService;
 import org.slf4j.Logger;
@@ -57,6 +58,7 @@ public class UserController {
 
         return user.toString();
     }
+
     @RequestMapping(value = "getUserNameById", params = {"UserId","QueryType"}, method = RequestMethod.POST)
     public String getUserNameById(String UserId, String QueryType){
         String userName = null;
@@ -76,5 +78,19 @@ public class UserController {
     @PostMapping(value = "deleteUserById", params = "UserId")
     public int deleteUserById(String UserId){
         return mUserService.deleteUserById(UserId);
+    }
+
+    @HystrixCommand(fallbackMethod = "getFallback")
+    @PostMapping(value = "getUserNameById4Hystrix", params = "UserId")
+    public String getUserNameById4Hystrix(String UserId){
+        UserModel userModel = mUserService.getUserById(UserId);
+        if(null == userModel){
+            throw new RuntimeException(UserId);
+        }
+        return userModel.getUserName();
+    }
+
+    public String getFallback(String UserId){
+        return "用户["+ UserId +"]不存在";
     }
 }

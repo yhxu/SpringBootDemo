@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: XUYH
@@ -35,7 +36,11 @@ public class UserService {
     @Cacheable(value = "user", keyGenerator = "wiselyKeyGenerator")
     public UserModel getUserById(String UserId){
         mLogger.info("|无缓存时调用这里。。。");
-        return mUserRepository.findById(UserId).get();
+        Optional<UserModel> optional = mUserRepository.findById(UserId);
+        if(optional.isPresent()){
+            return optional.get();
+        }
+        return null;
     }
 
     @Transactional
