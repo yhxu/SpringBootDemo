@@ -69,7 +69,7 @@ public class UserController {
     }
 
     @PostMapping(value = "updateUserNameById", params = {"UserName","UserId"})
-    public int getUserById(String UserName, String UserId){
+    public int updateUserNameById(String UserName, String UserId){
         return mUserService.updateUserNameById(UserName, UserId);
     }
 
