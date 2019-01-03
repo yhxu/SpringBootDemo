@@ -99,6 +99,12 @@
 			<artifactId>javapoet</artifactId>
 			<version>1.11.1</version>
 		</dependency>
+		<!--Hystrix 熔断框架依赖-->
+		<dependency>
+			<groupId>com.netflix.hystrix</groupId>
+			<artifactId>hystrix-javanica</artifactId>
+			<version>1.5.18</version>
+		</dependency>
 	</dependencies>
 
 	<build>
