@@ -3,8 +3,7 @@ package com.xuyh.controller;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.xuyh.model.UserModel;
 import com.xuyh.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -20,9 +19,9 @@ import java.util.List;
  * @Date: 2018/12/12
  * @Version:
  */
+@Slf4j
 @RestController
 public class UserController {
-    Logger mLogger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService mUserService;
     /**
@@ -50,10 +49,10 @@ public class UserController {
     public String getUserById(String UserId){
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         String headerTest = request.getHeader("TEST");
-        mLogger.info("获取 HttpServletRequest 测试：" + headerTest);
+        log.info("获取 HttpServletRequest 测试：" + headerTest);
         HttpSession session = request.getSession();
         String sessionTest = session.getId();
-        mLogger.info("获取 HttpSession 测试：" + sessionTest);
+        log.info("获取 HttpSession 测试：" + sessionTest);
         UserModel user = mUserService.getUserById(UserId);
 
         return user.toString();
