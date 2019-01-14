@@ -18,7 +18,7 @@ public class ExtRollingFileAppender extends RollingFileAppender {
     public synchronized void setFile(String fileName, boolean append, boolean bufferedIO, int bufferSize) throws IOException {
         if(null != fileName && !"".equals(fileName)){
             if (System.getProperty("os.name").startsWith("Win") && fileName.startsWith("/")){
-                fileName    =   "D:"+ File.separator +"logs"+ File.separator +"web"+ File.separator +fileName;
+                fileName    =   "D:"+ fileName;
                 File file = new File(fileName);
                 if(!file.getParentFile().exists()){
                     file.getParentFile().mkdirs();
