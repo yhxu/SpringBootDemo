@@ -24,8 +24,8 @@ public class HelloController {
         return "Hello Spring Boot Controller!";
     }
 
-    @GetMapping(value = "/i18n", params = "l")
-    public String i18nController(String l){
+    @GetMapping(value = "/i18n")
+    public String i18nController(){
         Locale locale = LocaleContextHolder.getLocale();
         return messageSource.getMessage("international.message", null, "默认值", locale);
     }
