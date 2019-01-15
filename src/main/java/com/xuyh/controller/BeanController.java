@@ -1,11 +1,13 @@
 package com.xuyh.controller;
 
+import com.xuyh.annotation.MyAnnotation;
 import com.xuyh.beans.Beans;
 import com.xuyh.beans.MyBeans2;
-import com.xuyh.annotation.MyAnnotation;
 import com.xuyh.utils.MyBeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,8 +23,23 @@ import java.util.Map;
 @RestController
 public class BeanController {
     Logger mLogger = LoggerFactory.getLogger(BeanController.class);
+
+
+    /**
+     * @Author: xuyh
+     * @Description: 当一个bean类型对应多个实现类时，
+     * 可以使用@Resource注解指定名称注入，
+     * 也可以使用@Autowired + @Qualifier指定名称注入
+     * @Date: 14:18 2019/1/15
+     */
+    @Qualifier(value = "myBeans1")
+    @Autowired
+//    @Resource(name = "myBeans1")
+    private Beans beans;
+
     @GetMapping(value = "bean")
     public Map beanController(){
+        beans.init();
         Beans beans = (Beans) MyBeanUtils.getBean("myBeans1");
         beans.process();
         beans = MyBeanUtils.getBean(MyBeans2.class);
