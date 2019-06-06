@@ -5,7 +5,6 @@ import com.xuyh.repository.HolidayRepository;
 import com.xuyh.utils.PageableImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +29,7 @@ public class HolidayService {
     }
 
     @Transactional
-    @Cacheable(value = "holiday", keyGenerator = "wiselyKeyGenerator")
+//    @Cacheable(value = "holiday", keyGenerator = "wiselyKeyGenerator")
     public HolidayModel getHolidayById(String Date){
         Optional<HolidayModel> optional = mHolidayRepository.findById(Date);
         if(optional.isPresent()){
@@ -40,9 +39,10 @@ public class HolidayService {
     }
 
     @Transactional
-    @Cacheable(value = "holiday", keyGenerator = "wiselyKeyGenerator")
+//    @Cacheable(value = "holiday", keyGenerator = "wiselyKeyGenerator")
     public String getHolidayTypeById(String Date){
-        return mHolidayRepository.getHolidayByDate(Date).getType();
+        HolidayModel holidayModel = mHolidayRepository.getHolidayByDate(Date);
+        return "1".equals(holidayModel.getDisable()) ? "-1": holidayModel.getType();
     }
 
     @Transactional
