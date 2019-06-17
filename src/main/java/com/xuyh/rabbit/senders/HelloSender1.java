@@ -25,7 +25,16 @@ public class HelloSender1 {
     private String hellQueue;
 
     public void send() {
-        String sendMsg = "hello1 " + new Date();
+        String sendMsg = "hello1";
+        send(sendMsg);
+    }
+    /**
+     * @Author: xuyh
+     * @Description: 增加方法用于 当生产者-多消费者
+     * @Date: 14:47 2019/6/17
+     */
+    public void send(String sendMsg) {
+        sendMsg = sendMsg + " " + new Date();
         log.info("Sender1 : " + sendMsg);
         amqpTemplate.convertAndSend(hellQueue, sendMsg);
     }

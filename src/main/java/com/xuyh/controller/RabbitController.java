@@ -22,4 +22,14 @@ public class RabbitController {
     public void hello() {
         helloSender1.send();
     }
+
+    /**
+     * 单生产者-多消费者
+     */
+    @PostMapping("/oneToMany")
+    public void oneToMany() {
+        for(int i=0;i<10;i++){
+            helloSender1.send("helloMsg" + i);
+        }
+    }
 }
