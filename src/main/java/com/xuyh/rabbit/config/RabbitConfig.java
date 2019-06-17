@@ -54,14 +54,19 @@ public class RabbitConfig {
     }
 
     //===============验证topic Exchange的队列 begin ==========
+    @Value("${spring.rabbitmq.queues.key.topic.message}")
+    private String topicMessage;
+    @Value("${spring.rabbitmq.queues.key.topic.messages}")
+    private String topicMessages;
+
     @Bean
     public Queue queueMessage() {
-        return new Queue("topic.message");
+        return new Queue(topicMessage);
     }
 
     @Bean
     public Queue queueMessages() {
-        return new Queue("topic.messages");
+        return new Queue(topicMessages);
     }
     //===============验证topic Exchange的队列 end==========
 

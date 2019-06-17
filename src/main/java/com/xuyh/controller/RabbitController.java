@@ -2,6 +2,7 @@ package com.xuyh.controller;
 
 import com.xuyh.rabbit.senders.HelloSender1;
 import com.xuyh.rabbit.senders.HelloSender2;
+import com.xuyh.rabbit.senders.TopicSender;
 import com.xuyh.rabbit.senders.UserSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,8 @@ public class RabbitController {
     private HelloSender2 helloSender2;
     @Autowired
     private UserSender   userSender;
+    @Autowired
+    private TopicSender  topicSender;
 
     @PostMapping("/hello")
     public void hello() {
@@ -54,5 +57,10 @@ public class RabbitController {
     @PostMapping("/sendUsers")
     public void sendUsers() {
         userSender.send();
+    }
+
+    @PostMapping("/topicExchange")
+    public void topicExchange() {
+        topicSender.send();
     }
 }
