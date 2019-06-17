@@ -54,10 +54,38 @@ public class RabbitConfig {
     }
 
     //===============验证topic Exchange的队列 begin ==========
+    @Value("${spring.rabbitmq.queues.type.topic.exchange}")
+    private String topicExchange;
     @Value("${spring.rabbitmq.queues.key.topic.message}")
     private String topicMessage;
     @Value("${spring.rabbitmq.queues.key.topic.messages}")
     private String topicMessages;
+
+    @Bean
+    TopicExchange exchange() {
+        return new TopicExchange(topicExchange);
+    }
+    /**
+     * 将队列topic.message与exchange绑定，binding_key为topic.message,就是完全匹配
+     * @param queueMessage
+     * @param exchange
+     * @return
+     */
+    @Bean
+    Binding bindingExchangeMessage(Queue queueMessage, TopicExchange exchange) {
+        return BindingBuilder.bind(queueMessage).to(exchange).with(topicMessage);
+    }
+
+    /**
+     * 将队列topic.messages与exchange绑定，binding_key为topic.#,模糊匹配
+     * @param queueMessages
+     * @param exchange
+     * @return
+     */
+    @Bean
+    Binding bindingExchangeMessages(Queue queueMessages, TopicExchange exchange) {
+        return BindingBuilder.bind(queueMessages).to(exchange).with("topic.#");
+    }
 
     @Bean
     public Queue queueMessage() {
@@ -72,52 +100,18 @@ public class RabbitConfig {
 
 
     //===============验证Fanout Exchange的队列 begin==========
-    @Bean
-    public Queue AMessage() {
-        return new Queue("fanout.A");
-    }
+    @Value("${spring.rabbitmq.queues.type.fanout.exchange}")
+    private String fanoutExchange;
+    @Value("${spring.rabbitmq.queues.key.fanout.A}")
+    private String fanout_A;
+    @Value("${spring.rabbitmq.queues.key.fanout.B}")
+    private String fanout_B;
+    @Value("${spring.rabbitmq.queues.key.fanout.C}")
+    private String fanout_C;
 
-    @Bean
-    public Queue BMessage() {
-        return new Queue("fanout.B");
-    }
-
-    @Bean
-    public Queue CMessage() {
-        return new Queue("fanout.C");
-    }
-    //===============验证Fanout Exchange的队列 end==========
-
-
-    @Bean
-    TopicExchange exchange() {
-        return new TopicExchange("exchange");
-    }
     @Bean
     FanoutExchange fanoutExchange() {
-        return new FanoutExchange("fanoutExchange");
-    }
-
-    /**
-     * 将队列topic.message与exchange绑定，binding_key为topic.message,就是完全匹配
-     * @param queueMessage
-     * @param exchange
-     * @return
-     */
-    @Bean
-    Binding bindingExchangeMessage(Queue queueMessage, TopicExchange exchange) {
-        return BindingBuilder.bind(queueMessage).to(exchange).with("topic.message");
-    }
-
-    /**
-     * 将队列topic.messages与exchange绑定，binding_key为topic.#,模糊匹配
-     * @param queueMessages
-     * @param exchange
-     * @return
-     */
-    @Bean
-    Binding bindingExchangeMessages(Queue queueMessages, TopicExchange exchange) {
-        return BindingBuilder.bind(queueMessages).to(exchange).with("topic.#");
+        return new FanoutExchange(fanoutExchange);
     }
 
     @Bean
@@ -134,4 +128,21 @@ public class RabbitConfig {
     Binding bindingExchangeC(Queue CMessage, FanoutExchange fanoutExchange) {
         return BindingBuilder.bind(CMessage).to(fanoutExchange);
     }
+
+    @Bean
+    public Queue AMessage() {
+        return new Queue(fanout_A);
+    }
+
+    @Bean
+    public Queue BMessage() {
+        return new Queue(fanout_B);
+    }
+
+    @Bean
+    public Queue CMessage() {
+        return new Queue(fanout_C);
+    }
+    //===============验证Fanout Exchange的队列 end==========
+
 }
