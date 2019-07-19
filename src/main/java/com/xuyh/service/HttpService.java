@@ -1,5 +1,6 @@
 package com.xuyh.service;
 
+import com.xuyh.model.HolidayModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -8,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Map;
 
 /**
  * @Author: cleve
@@ -41,6 +44,12 @@ public class HttpService {
 
     public String postForObject(String url, @Nullable Object request, String... requestData) {
         String returnData = restTemplate.postForObject(url, request, String.class, (Object[]) requestData);
+        log.info("POST请求返回消息：" + returnData);
+        return returnData;
+    }
+
+    public HolidayModel postForHoliday(String url, @Nullable Object request, Map<String, ?> uriVariables) {
+        HolidayModel returnData = restTemplate.postForObject(url, request, HolidayModel.class, uriVariables);
         log.info("POST请求返回消息：" + returnData);
         return returnData;
     }

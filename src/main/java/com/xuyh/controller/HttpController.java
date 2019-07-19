@@ -1,5 +1,6 @@
 package com.xuyh.controller;
 
+import com.xuyh.model.HolidayModel;
 import com.xuyh.service.HttpService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,15 @@ public class HttpController {
         return httpService.postForObject("http://192.168.22.128:1010/SpringBootDemo-0.0.1-SNAPSHOT/getAllUsers", request, QueryType, CurrentPage);
     }
 
+    @PostMapping(value = "postForHoliday", params = "Date")
+    public HolidayModel postForHoliday(String Date) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
+        map.add("Date", Date);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+        return httpService.postForHoliday("http://192.168.22.128:1010/SpringBootDemo-0.0.1-SNAPSHOT/getHolidayByDate", request, map);
+    }
     /**
      * postMan有返回值
      * <200,nullUserModel{UserId='0008', UserName='琪琪', UserAge=27, UserSex='M', UserCardId='null', UserPhoneNumber='null', UserMail='null'}UserModel{UserId='0007', UserName='王五1', UserAge=26, UserSex='F', UserCardId='null', UserPhoneNumber='null', UserMail='null'},{Content-Type=[text/plain;charset=UTF-8], Content-Length=[261], Date=[Fri, 19 Jul 2019 03:46:46 GMT]}>
