@@ -40,7 +40,7 @@ public class HttpService {
     }
 
     public String postForObject(String url, @Nullable Object request, String... requestData) {
-        String returnData = restTemplate.postForObject(url, request, String.class, requestData);
+        String returnData = restTemplate.postForObject(url, request, String.class, (Object[]) requestData);
         log.info("POST请求返回消息：" + returnData);
         return returnData;
     }
@@ -52,7 +52,7 @@ public class HttpService {
     }
 
     public String postForEntity(String url, @Nullable Object request, String... requestData) {
-        ResponseEntity<String> returnData = restTemplate.postForEntity(url, request, String.class, requestData);
+        ResponseEntity<String> returnData = restTemplate.postForEntity(url, request, String.class, (Object[]) requestData);
         log.info("exchange请求返回消息：" + returnData.toString());
         return returnData.toString();
     }
