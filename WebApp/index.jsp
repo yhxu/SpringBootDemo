@@ -11,7 +11,14 @@
     <title>Welcome to SpringBoot</title>
 </head>
 <body>
-<h1>欢迎来到SpringBoot</h1>
-<p>这是一个SpringBoot学习项目</p>
+    <h1>欢迎来到SpringBoot</h1>
+    <p>这是一个SpringBoot学习项目</p>
+    <form method="post" action="/SpringBootDemo/upload" enctype="multipart/form-data">
+        <input type="file" name="file"><br>
+        <input type="file" name="file"><br>
+        <input type="file" name="file"><br>
+        <input type="file" name="file"><br>
+        <input type="submit" value="提交">
+    </form>
 </body>
 </html>
