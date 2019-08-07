@@ -27,6 +27,9 @@ public class UserService {
     @Autowired
     private UserRepository mUserRepository;
 
+    @Autowired
+    private PageableImpl pageable;
+
     @Transactional
     public List<UserModel> getAll(){
         return mUserRepository.findAll();
@@ -59,7 +62,6 @@ public class UserService {
 
     @Transactional
     public List<UserModel> getAll4Page(int currentPage){
-        PageableImpl pageable = new PageableImpl();
         pageable.setPageNumber(currentPage);
         // 以下属性可以设置也可以使用接口定义中的默认值
         pageable.setPageSize(2);

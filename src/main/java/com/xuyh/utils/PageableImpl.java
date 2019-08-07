@@ -1,5 +1,7 @@
 package com.xuyh.utils;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
  * @Version:
  */
 @Component
+@Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PageableImpl implements Pageable{
     private int  PageNumber  = 0;
     private int  PageSize    = 0;
