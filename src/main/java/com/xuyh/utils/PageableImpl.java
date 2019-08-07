@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+//@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PageableImpl implements Pageable{
     private int  PageNumber  = 0;
     private int  PageSize    = 0;
