@@ -2,9 +2,11 @@ package com.xuyh.service;
 
 import com.xuyh.model.UserModel;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,27 +21,37 @@ import java.util.List;
  */
 @Service
 public class JdbcService {
+
     @Transactional
     public List getUsers4Jdbc(JdbcTemplate jdbcTemplate){
 
         String querySql = "SELECT * FROM USER";
-        List resultList = jdbcTemplate. queryForList(querySql);
+        List resultList = jdbcTemplate.queryForList(querySql);
 
+        Connection c = null;
+        Statement s = null;
+        ResultSet r = null;
+        DataSource d = null;
         try {
-            Connection c = jdbcTemplate.getDataSource().getConnection();
-            Statement s = c.createStatement();
-            ResultSet r = s.executeQuery(querySql);
+            d = jdbcTemplate.getDataSource();
+            if(null == d){
+               return resultList;
+            }
+            c = d.getConnection();
+            s = c.createStatement();
+            r = s.executeQuery(querySql);
             while(r.next()){
                 UserModel userModel = new UserModel();
                 userModel.setUserId(r.getString("UserId"));
                 resultList.add(userModel);
             }
-            r.close();
-            s.close();
-            c.close();
             return resultList;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            JdbcUtils.closeResultSet(r);
+            JdbcUtils.closeStatement(s);
+            JdbcUtils.closeConnection(c);
         }
         return null;
     }
