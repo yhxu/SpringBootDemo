@@ -49,7 +49,7 @@ public class WebConfig implements WebMvcConfigurer {
      * @return
      */
     @Bean
-    public FilterRegistrationBean<Filter> MyFilterRegister() {
+    public FilterRegistrationBean<Filter> myFilterRegister() {
         FilterRegistrationBean<Filter> filterFilterRegistrationBean = new FilterRegistrationBean<>();
         filterFilterRegistrationBean.setFilter(myFilter);
         filterFilterRegistrationBean.addUrlPatterns("/*");
@@ -63,7 +63,7 @@ public class WebConfig implements WebMvcConfigurer {
      * @return
      */
     @Bean
-    public ServletListenerRegistrationBean<HttpSessionListener> listenerRegister() {
+    public ServletListenerRegistrationBean<HttpSessionListener> myHttpSessionListenerRegister() {
         ServletListenerRegistrationBean<HttpSessionListener> servletListenerRegistrationBean = new ServletListenerRegistrationBean<>();
         servletListenerRegistrationBean.setListener(myHttpSessionListener);
         log.info("MyHttpSessionListener register!");
