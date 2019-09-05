@@ -60,7 +60,7 @@ public class HolidayController {
     public List<HolidayModel> init(int year){
         List<HolidayModel> holidays = new ArrayList<>();
         LocalDate firstDayOfYear = LocalDate.of(year, 1, 1);
-        for (int i = 0; i < firstDayOfYear.lengthOfYear(); i++, firstDayOfYear = firstDayOfYear.plusDays(1)) {
+        for (int i = 1; i < firstDayOfYear.lengthOfYear(); i++, firstDayOfYear = firstDayOfYear.plusDays(1)) {
             String date = firstDayOfYear.toString();
             int dayOfWeek = firstDayOfYear.getDayOfWeek().getValue();
             HolidayModel holiday = new HolidayModel();
