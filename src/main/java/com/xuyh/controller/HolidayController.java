@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -52,6 +54,21 @@ public class HolidayController {
 
     @PostMapping(value = "saveHolidays")
     public List<HolidayModel> saveAll(@RequestBody List<HolidayModel> holidays){
+        return mHolidayService.saveAll(holidays);
+    }
+    @PostMapping(value = "init", params = {"year"})
+    public List<HolidayModel> init(int year){
+        List<HolidayModel> holidays = new ArrayList<>();
+        LocalDate firstDayOfYear = LocalDate.of(year, 1, 1);
+        for (int i = 0; i < firstDayOfYear.lengthOfYear(); i++, firstDayOfYear = firstDayOfYear.plusDays(1)) {
+            String date = firstDayOfYear.toString();
+            int dayOfWeek = firstDayOfYear.getDayOfWeek().getValue();
+            HolidayModel holiday = new HolidayModel();
+            holiday.setDate(date);
+            holiday.setDisable("0");
+            holiday.setType((dayOfWeek == 6 || dayOfWeek == 7) ? "1" : "0");
+            holidays.add(holiday);
+        }
         return mHolidayService.saveAll(holidays);
     }
 }
