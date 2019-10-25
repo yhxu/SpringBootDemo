@@ -46,50 +46,50 @@ public class UserController {
     }
 
     @PostMapping(value = "getUserById", params = "UserId")
-    public String getUserById(String UserId){
+    public String getUserById(String userId){
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         String headerTest = request.getHeader("TEST");
         log.info("获取 HttpServletRequest 测试：" + headerTest);
         HttpSession session = request.getSession();
         String sessionTest = session.getId();
         log.info("获取 HttpSession 测试：" + sessionTest);
-        UserModel user = mUserService.getUserById(UserId);
+        UserModel user = mUserService.getUserById(userId);
 
         return user.toString();
     }
 
     @RequestMapping(value = "getUserNameById", params = {"UserId","QueryType"}, method = RequestMethod.POST)
-    public String getUserNameById(String UserId, String QueryType){
+    public String getUserNameById(String userId, String queryType){
         String userName = null;
-        if("SQL".equals(QueryType)){
-            userName = mUserService.getUserNameById4SQL(UserId);
+        if("SQL".equals(queryType)){
+            userName = mUserService.getUserNameById4SQL(userId);
         } else {
-            userName = mUserService.getUserNameById4JPQL(UserId);
+            userName = mUserService.getUserNameById4JPQL(userId);
         }
         return userName;
     }
 
     @PostMapping(value = "updateUserNameById", params = {"UserName","UserId"})
-    public int updateUserNameById(String UserName, String UserId){
-        return mUserService.updateUserNameById(UserName, UserId);
+    public int updateUserNameById(String userName, String userId){
+        return mUserService.updateUserNameById(userName, userId);
     }
 
     @PostMapping(value = "deleteUserById", params = "UserId")
-    public int deleteUserById(String UserId){
-        return mUserService.deleteUserById(UserId);
+    public int deleteUserById(String userId){
+        return mUserService.deleteUserById(userId);
     }
 
     @HystrixCommand(fallbackMethod = "getFallback")
     @PostMapping(value = "getUserNameById4Hystrix", params = "UserId")
-    public String getUserNameById4Hystrix(String UserId){
-        UserModel userModel = mUserService.getUserById(UserId);
+    public String getUserNameById4Hystrix(String userId){
+        UserModel userModel = mUserService.getUserById(userId);
         if(null == userModel){
-            throw new RuntimeException(UserId);
+            throw new RuntimeException(userId);
         }
         return userModel.getUserName();
     }
 
-    public String getFallback(String UserId){
-        return "用户["+ UserId +"]不存在";
+    public String getFallback(String userId){
+        return String.format("用户[%s]不存在", userId);
     }
 }
