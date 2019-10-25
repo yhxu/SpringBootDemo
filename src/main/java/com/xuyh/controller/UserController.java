@@ -3,6 +3,7 @@ package com.xuyh.controller;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.xuyh.model.UserModel;
 import com.xuyh.service.UserService;
+import com.xuyh.utils.PageableImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class UserController {
     public String getAll(@RequestParam("QueryType") String queryType, @RequestParam("CurrentPage")String currentPage){
         String userInfo = null;
         List<UserModel> users = null;
-        if("PAGE".equals(queryType)){
+        if(PageableImpl.QUERY_TYPE_PAGE.equals(queryType)){
             users = mUserService.getAll4Page(Integer.parseInt(currentPage));
         } else {
             users = mUserService.getAll();
@@ -61,7 +62,7 @@ public class UserController {
     @RequestMapping(value = "getUserNameById", params = {"UserId","QueryType"}, method = RequestMethod.POST)
     public String getUserNameById(String userId, String queryType){
         String userName = null;
-        if("SQL".equals(queryType)){
+        if(PageableImpl.QUERY_TYPE_SQL.equals(queryType)){
             userName = mUserService.getUserNameById4SQL(userId);
         } else {
             userName = mUserService.getUserNameById4JPQL(userId);

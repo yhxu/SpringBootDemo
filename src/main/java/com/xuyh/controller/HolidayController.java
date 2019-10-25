@@ -2,6 +2,7 @@ package com.xuyh.controller;
 
 import com.xuyh.model.HolidayModel;
 import com.xuyh.service.HolidayService;
+import com.xuyh.utils.PageableImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class HolidayController {
     @PostMapping(value = "getAllHolidays")
     public List<HolidayModel> getAll(@RequestParam("QueryType") String queryType, @RequestParam("CurrentPage")String currentPage){
         List<HolidayModel> holidays;
-        if("PAGE".equals(queryType)){
+        if(PageableImpl.QUERY_TYPE_PAGE.equals(queryType)){
             holidays = mHolidayService.getAll4Page(Integer.parseInt(currentPage));
         } else {
             holidays = mHolidayService.getAll();

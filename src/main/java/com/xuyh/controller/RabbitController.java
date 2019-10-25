@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/rabbit")
 public class RabbitController {
-
+    private static final int MESSAGE_NUMBERS = 10;
     @Autowired
     private HelloSender1 helloSender1;
     @Autowired
@@ -37,7 +37,7 @@ public class RabbitController {
      */
     @PostMapping("/oneToMany")
     public void oneToMany() {
-        for(int i=0;i<10;i++){
+        for(int i=0;i<MESSAGE_NUMBERS;i++){
             helloSender1.send("helloMsg" + i);
         }
     }
@@ -47,7 +47,7 @@ public class RabbitController {
      */
     @PostMapping("/manyToMany")
     public void manyToMany() {
-        for(int i=0;i<10;i++){
+        for(int i=0;i<MESSAGE_NUMBERS;i++){
             helloSender1.send("helloMsg" + i);
             helloSender2.send("helloMsg" + i);
         }

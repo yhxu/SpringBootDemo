@@ -106,6 +106,18 @@ public class ImpExcelBigData {
 
     private static class MyXSSFSheetHandler extends DefaultHandler {
 
+        enum XSSFCollType {
+            INLINESTR("inlineStr"), V("v"), ROW("row"), C("c"), B("b"), E("e"), STR("str"), S("s"), YEAR("1900");
+
+            private String code;
+
+            private XSSFCollType (String code){
+
+            }
+            public String getCode(){
+                return this.code;
+            }
+        }
         enum XSSFDataType {
             BOOL, ERROR, FORMULA, INLINESTR, SSTINDEX, NUMBER,
         }
@@ -159,10 +171,10 @@ public class ImpExcelBigData {
         }
         @Override
         public void startElement(String uri, String localName, String name, Attributes attributes){
-            if ("inlineStr".equals(name) || "v".equals(name)) {
+            if (XSSFCollType.INLINESTR.getCode().equals(name) || XSSFCollType.V.getCode().equals(name)) {
                 vIsOpen = true;
                 value.setLength(0);
-            } else if ("c".equals(name)) {// c => cell
+            } else if (XSSFCollType.C.getCode().equals(name)) {// c => cell
                 String           r = attributes.getValue("r");
                 int     firstDigit = -1;
                 for (int c = 0; c < r.length(); ++c) {
@@ -177,15 +189,15 @@ public class ImpExcelBigData {
                 this.formatString   = null;
                 String cellType     = attributes.getValue("t");
                 String cellStyleStr = attributes.getValue("s");
-                if ("b".equals(cellType)) {
+                if (XSSFCollType.B.getCode().equals(cellType)) {
                     nextDataType = XSSFDataType.BOOL;
-                } else if ("e".equals(cellType)) {
+                } else if (XSSFCollType.E.getCode().equals(cellType)) {
                     nextDataType = XSSFDataType.ERROR;
-                } else if ("inlineStr".equals(cellType)) {
+                } else if (XSSFCollType.INLINESTR.getCode().equals(cellType)) {
                     nextDataType = XSSFDataType.INLINESTR;
-                } else if ("s".equals(cellType)) {
+                } else if (XSSFCollType.S.getCode().equals(cellType)) {
                     nextDataType = XSSFDataType.SSTINDEX;
-                } else if ("str".equals(cellType)) {
+                } else if (XSSFCollType.STR.getCode().equals(cellType)) {
                     nextDataType = XSSFDataType.FORMULA;
                 } else if (cellStyleStr != null) {
                     int           styleIndex = Integer.parseInt(cellStyleStr);
@@ -202,7 +214,7 @@ public class ImpExcelBigData {
         @Override
         public void endElement(String uri, String localName, String name) {
             String thisStr = null;
-            if ("v".equals(name)) {// v => contents of a cell
+            if (XSSFCollType.V.getCode().equals(name)) {// v => contents of a cell
                 switch (nextDataType) {
                     case BOOL:
                         char first = value.charAt(0);
@@ -256,7 +268,7 @@ public class ImpExcelBigData {
                     lastColumnNumber = thisColumn;
                 }
 
-            } else if ("row".equals(name)) {
+            } else if (XSSFCollType.ROW.getCode().equals(name)) {
                 if (lastColumnNumber == -1) {
                     lastColumnNumber = 0;
                 }
@@ -296,7 +308,7 @@ public class ImpExcelBigData {
         private String formateDateToString(Date date) {
             Calendar c = Calendar.getInstance();
             c.setTime(date);
-            if(c.get(Calendar.YEAR) < 1900){
+            if(c.get(Calendar.YEAR) < Integer.parseInt(XSSFCollType.YEAR.getCode())){
                 return new SimpleDateFormat(getTimeFormat()).format(date);
             } else {
                 if(c.get(Calendar.HOUR_OF_DAY) == 0 && c.get(Calendar.MINUTE)==0 && c.get(Calendar.SECOND)==0) {

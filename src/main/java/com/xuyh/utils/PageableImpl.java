@@ -14,18 +14,19 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-//@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PageableImpl implements Pageable{
-    private int  PageNumber  = 0;
-    private int  PageSize    = 0;
-    private Sort sort        = null;
+    public static final String QUERY_TYPE_PAGE = "PAGE";
+    public static final String QUERY_TYPE_SQL = "SQL";
+    private int pageNumber = 0;
+    private int pageSize = 0;
+    private Sort sort = null;
 
     public void setPageNumber(int pageNumber) {
-        PageNumber = pageNumber;
+        this.pageNumber = pageNumber;
     }
 
     public void setPageSize(int pageSize) {
-        PageSize = pageSize;
+        this.pageSize = pageSize;
     }
 
     public void setSort(Sort sort) {
@@ -34,17 +35,17 @@ public class PageableImpl implements Pageable{
 
     @Override
     public int getPageNumber() {
-        return this.PageNumber;
+        return this.pageNumber;
     }
 
     @Override
     public int getPageSize() {
-        return this.PageSize;
+        return this.pageSize;
     }
 
     @Override
     public long getOffset() {
-        return (this.PageNumber - 1) * this.PageSize;
+        return (this.pageNumber - 1) * this.pageSize;
     }
 
     @Override
@@ -54,24 +55,24 @@ public class PageableImpl implements Pageable{
 
     @Override
     public Pageable next() {
-        this.PageNumber ++;
+        this.pageNumber++;
         return this;
     }
 
     @Override
     public Pageable previousOrFirst() {
-        this.PageNumber = 0 < this.PageNumber ? this.PageNumber - 1 : 1;
+        this.pageNumber = 0 < this.pageNumber ? this.pageNumber - 1 : 1;
         return this;
     }
 
     @Override
     public Pageable first() {
-        this.PageNumber = 1;
+        this.pageNumber = 1;
         return this;
     }
 
     @Override
     public boolean hasPrevious() {
-        return this.PageNumber > 1;
+        return this.pageNumber > 1;
     }
 }
