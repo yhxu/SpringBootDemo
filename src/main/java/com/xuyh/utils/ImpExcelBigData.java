@@ -111,7 +111,7 @@ public class ImpExcelBigData {
 
             private String code;
 
-            private XSSFCollType (String code){
+            XSSFCollType(String code){
 
             }
             public String getCode(){
