@@ -72,6 +72,6 @@ public class PageableImpl implements Pageable{
 
     @Override
     public boolean hasPrevious() {
-        return !(this.PageNumber <= 1);
+        return this.PageNumber > 1;
     }
 }

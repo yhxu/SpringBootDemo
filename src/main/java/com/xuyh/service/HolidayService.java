@@ -31,8 +31,8 @@ public class HolidayService {
 
     @Transactional
     @Cacheable(value = "holiday", keyGenerator = "wiselyKeyGenerator")
-    public HolidayModel getHolidayById(String Date){
-        Optional<HolidayModel> optional = mHolidayRepository.findById(Date);
+    public HolidayModel getHolidayById(String date){
+        Optional<HolidayModel> optional = mHolidayRepository.findById(date);
         if(optional.isPresent()){
             return optional.get();
         }
@@ -41,8 +41,8 @@ public class HolidayService {
 
     @Transactional
     @Cacheable(value = "holiday", keyGenerator = "wiselyKeyGenerator")
-    public String getHolidayTypeById(String Date){
-        HolidayModel holidayModel = mHolidayRepository.getHolidayByDate(Date);
+    public String getHolidayTypeById(String date){
+        HolidayModel holidayModel = mHolidayRepository.getHolidayByDate(date);
         return "1".equals(holidayModel.getDisable()) ? "-1": holidayModel.getType();
     }
 
@@ -57,13 +57,13 @@ public class HolidayService {
     }
 
     @Transactional
-    public int disableHolidayById(String Date){
-        return mHolidayRepository.disableDate(Date);
+    public int disableHolidayById(String date){
+        return mHolidayRepository.disableDate(date);
     }
 
     @Transactional
-    public int deleteHolidayById(String Date){
-        return mHolidayRepository.deleteDate(Date);
+    public int deleteHolidayById(String date){
+        return mHolidayRepository.deleteDate(date);
     }
 
     @Transactional

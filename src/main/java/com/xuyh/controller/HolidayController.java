@@ -28,23 +28,23 @@ public class HolidayController {
     }
 
     @PostMapping(value = "getHolidayByDate", params = "Date")
-    public HolidayModel getUserById(String Date){
-        return mHolidayService.getHolidayById(Date);
+    public HolidayModel getUserById(String date){
+        return mHolidayService.getHolidayById(date);
     }
 
     @RequestMapping(value = "getHolidayTypeById", params = {"Date"}, method = RequestMethod.POST)
-    public String getHolidayTypeById(String Date){
-        return mHolidayService.getHolidayTypeById(Date);
+    public String getHolidayTypeById(String date){
+        return mHolidayService.getHolidayTypeById(date);
     }
 
     @PostMapping(value = "disableHoliday", params = {"Date"})
-    public int disableHolidayById(String Date){
-        return mHolidayService.disableHolidayById(Date);
+    public int disableHolidayById(String date){
+        return mHolidayService.disableHolidayById(date);
     }
 
     @PostMapping(value = "deleteHoliday", params = {"Date"})
-    public int deleteHolidayById(String Date){
-        return mHolidayService.deleteHolidayById(Date);
+    public int deleteHolidayById(String date){
+        return mHolidayService.deleteHolidayById(date);
     }
 
     @PostMapping(value = "saveHoliday")

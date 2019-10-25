@@ -18,7 +18,7 @@ import java.util.Date;
 
 public class TimerTask {
     private static final Logger mLogger = LoggerFactory.getLogger(TimerTask.class);
-    private static final SimpleDateFormat mDataFormate = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+    private static SimpleDateFormat mDataFormate = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 
     /**
      * @Author: xuyh

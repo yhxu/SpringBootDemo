@@ -177,23 +177,24 @@ public class ImpExcelBigData {
                 this.formatString   = null;
                 String cellType     = attributes.getValue("t");
                 String cellStyleStr = attributes.getValue("s");
-                if ("b".equals(cellType))
+                if ("b".equals(cellType)) {
                     nextDataType = XSSFDataType.BOOL;
-                else if ("e".equals(cellType))
+                } else if ("e".equals(cellType)) {
                     nextDataType = XSSFDataType.ERROR;
-                else if ("inlineStr".equals(cellType))
+                } else if ("inlineStr".equals(cellType)) {
                     nextDataType = XSSFDataType.INLINESTR;
-                else if ("s".equals(cellType))
+                } else if ("s".equals(cellType)) {
                     nextDataType = XSSFDataType.SSTINDEX;
-                else if ("str".equals(cellType))
+                } else if ("str".equals(cellType)) {
                     nextDataType = XSSFDataType.FORMULA;
-                else if (cellStyleStr != null) {
+                } else if (cellStyleStr != null) {
                     int           styleIndex = Integer.parseInt(cellStyleStr);
                     XSSFCellStyle style      = stylesTable.getStyleAt(styleIndex);
                     this.formatIndex         = style.getDataFormat();
                     this.formatString        = style.getDataFormatString();
-                    if (this.formatString == null)
+                    if (this.formatString == null) {
                         this.formatString = BuiltinFormats.getBuiltinFormat(this.formatIndex);
+                    }
                 }
             }
 
@@ -222,8 +223,7 @@ public class ImpExcelBigData {
                         String sstIndex = value.toString();
                         try {
                             int idx = Integer.parseInt(sstIndex);
-                            XSSFRichTextString rtss = new XSSFRichTextString(sharedStringsTable.getEntryAt(idx));
-                            thisStr =rtss.toString();
+                            thisStr =sharedStringsTable.getItemAt(idx).toString();
                         } catch (NumberFormatException ex) {
 //                        System.out.println("Failed to parse SST index '" + sstIndex + "': " + ex.toString());
                         }
@@ -234,10 +234,11 @@ public class ImpExcelBigData {
                             Double  d    = Double.parseDouble(n);
                             Date date = HSSFDateUtil.getJavaDate(d);
                             thisStr = formateDateToString(date);
-                        } else if (this.formatString != null)
+                        } else if (this.formatString != null) {
                             thisStr = formatter.formatRawCellContents(Double.parseDouble(n), this.formatIndex,this.formatString);
-                        else
+                        } else {
                             thisStr = n;
+                        }
                         break;
                     default:
                         thisStr = "(TODO: Unexpected type: " + nextDataType + ")";
@@ -251,8 +252,9 @@ public class ImpExcelBigData {
                     isCellNull = true;// 设置单元格是否为空值
                 }
                 record.add(thisStr);
-                if (thisColumn > -1)
+                if (thisColumn > -1) {
                     lastColumnNumber = thisColumn;
+                }
 
             } else if ("row".equals(name)) {
                 if (lastColumnNumber == -1) {
@@ -277,8 +279,9 @@ public class ImpExcelBigData {
 
         @Override
         public void characters(char[] ch, int start, int length) {
-            if (vIsOpen)
+            if (vIsOpen) {
                 value.append(ch, start, length);
+            }
         }
 
         private int nameToColumn(String name) {

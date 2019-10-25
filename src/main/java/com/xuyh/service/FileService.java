@@ -23,7 +23,7 @@ public class FileService {
 
     public String upload(MultipartFile file){
         String fileName = file.getOriginalFilename();
-        String filePath = fileConfig.getfileUploadPath();
+        String filePath = fileConfig.getFileUploadPath();
         File destfile = new File(filePath + fileName);
         try {
             file.transferTo(destfile);

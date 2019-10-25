@@ -21,12 +21,13 @@ public class FileConfig {
     private String fileUploadPath;
 
     @Bean
-    public String getfileUploadPath(){
+    public String getFileUploadPath(){
         String filePath =  (System.getProperty("os.name").toUpperCase().startsWith("W") && fileUploadPath.startsWith("/")) ? System.getProperty("user.home") + File.separator + "Documents"  +  fileUploadPath : fileUploadPath;
         File file = new File(filePath);
         if(!file.exists()){
-            if(file.mkdir())
+            if(file.mkdir()) {
                 log.info("mkdir success!");
+            }
         }
         log.info("upload file path: "+file.getPath());
         return filePath.endsWith("/") ? filePath : filePath + File.separator;

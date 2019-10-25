@@ -20,7 +20,7 @@ public interface HolidayRepository extends JpaRepository<HolidayModel, String>{
      * @Date: 13:55 2018/12/14
      */
     @Query("SELECT HOLIDAY FROM HolidayModel HOLIDAY WHERE HOLIDAY.date = :Date")
-    HolidayModel getHolidayByDate(@Param("Date") String Date);
+    HolidayModel getHolidayByDate(@Param("Date") String date);
 
 
     /**
@@ -39,7 +39,7 @@ public interface HolidayRepository extends JpaRepository<HolidayModel, String>{
     @Transactional //用于提交事务，若没有带上这句，会报事务异常提示。
     @Modifying(flushAutomatically = true) // 自动刷新实体里保存的数据。
     @Query(value = "UPDATE HOLIDAY SET Disable = '1' WHERE Date = :Date", nativeQuery = true)
-    int disableDate(@Param("Date") String Date);
+    int disableDate(@Param("Date") String date);
 
     /**
      * @Author: xuyh
@@ -49,6 +49,6 @@ public interface HolidayRepository extends JpaRepository<HolidayModel, String>{
     @Transactional //用于提交事务，若没有带上这句，会报事务异常提示。
     @Modifying(clearAutomatically = true) // 自动删除实体里保存的数据。
     @Query(value = "DELETE FROM HOLIDAY WHERE Date = ?1", nativeQuery = true)
-    int deleteDate(String Date);
+    int deleteDate(String date);    
 
 }

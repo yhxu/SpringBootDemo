@@ -18,105 +18,115 @@ import java.io.Serializable;
 @Entity
 public class UserModel implements Serializable{
 
-    private String UserId     = "";
-    private String UserName   = "";
-    private int    UserAge    = 0;
-    private String UserSex    = "";
-    private String UserCardId = "";
-    private String UserPhoneNumber = "";
-    private String UserMail   = "";
+    private String userId = "";
+    private String userName = "";
+    private int userAge = 0;
+    private String userSex = "";
+    private String userCardId = "";
+    private String userPhoneNumber = "";
+    private String userMail = "";
 
     @Override
     public String toString() {
         return "UserModel{" +
-                "UserId='" + UserId + '\'' +
-                ", UserName='" + UserName + '\'' +
-                ", UserAge=" + UserAge +
-                ", UserSex='" + UserSex + '\'' +
-                ", UserCardId='" + UserCardId + '\'' +
-                ", UserPhoneNumber='" + UserPhoneNumber + '\'' +
-                ", UserMail='" + UserMail + '\'' +
+                "UserId='" + userId + '\'' +
+                ", UserName='" + userName + '\'' +
+                ", UserAge=" + userAge +
+                ", UserSex='" + userSex + '\'' +
+                ", UserCardId='" + userCardId + '\'' +
+                ", UserPhoneNumber='" + userPhoneNumber + '\'' +
+                ", UserMail='" + userMail + '\'' +
                 '}';
     }
 
     @Id
     public String getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(String userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     @Column(nullable = false)
     public String getUserName() {
-        return UserName;
+        return userName;
     }
 
     public void setUserName(String userName) {
-        UserName = userName;
+        this.userName = userName;
     }
 
     public int getUserAge() {
-        return UserAge;
+        return userAge;
     }
 
     public void setUserAge(int userAge) {
-        UserAge = userAge;
+        this.userAge = userAge;
     }
 
     public String getUserSex() {
-        return UserSex;
+        return userSex;
     }
 
     public void setUserSex(String userSex) {
-        UserSex = userSex;
+        this.userSex = userSex;
     }
 
     @Column(name = "UserCardId", length =18, unique = true)
     public String getUserCardId() {
-        return UserCardId;
+        return userCardId;
     }
 
     public void setUserCardId(String userCardId) {
-        UserCardId = userCardId;
+        this.userCardId = userCardId;
     }
 
     public String getUserPhoneNumber() {
-        return UserPhoneNumber;
+        return userPhoneNumber;
     }
 
     public void setUserPhoneNumber(String userPhoneNumber) {
-        UserPhoneNumber = userPhoneNumber;
+        this.userPhoneNumber = userPhoneNumber;
     }
 
     public String getUserMail() {
-        return UserMail;
+        return userMail;
     }
 
     public void setUserMail(String userMail) {
-        UserMail = userMail;
+        this.userMail = userMail;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         UserModel userModel = (UserModel) o;
 
-        if (UserAge != userModel.UserAge) return false;
-        if (!UserId.equals(userModel.UserId)) return false;
-        if (!UserName.equals(userModel.UserName)) return false;
-        return UserSex.equals(userModel.UserSex);
+        if (userAge != userModel.userAge) {
+            return false;
+        }
+        if (!userId.equals(userModel.userId)) {
+            return false;
+        }
+        if (!userName.equals(userModel.userName)) {
+            return false;
+        }
+        return userSex.equals(userModel.userSex);
     }
 
     @Override
     public int hashCode() {
-        int result = UserId.hashCode();
-        result = 31 * result + UserName.hashCode();
-        result = 31 * result + UserAge;
-        result = 31 * result + UserSex.hashCode();
+        int result = userId.hashCode();
+        result = 31 * result + userName.hashCode();
+        result = 31 * result + userAge;
+        result = 31 * result + userSex.hashCode();
         return result;
     }
 }
