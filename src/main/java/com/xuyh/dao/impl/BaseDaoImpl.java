@@ -2,9 +2,13 @@ package com.xuyh.dao.impl;
 
 import com.xuyh.dao.BaseDao;
 import org.springframework.core.ResolvableType;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.*;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +19,35 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     @Resource
     JdbcTemplate jdbcTemplate;
 
+    /**
+     * entityManager
+     */
+    @Resource
+    private EntityManager entityManager;
+
+    /**
+     * 安全查询创建工厂
+     */
+    private CriteriaBuilder criteriaBuilder;
+
+    /**
+     * 安全查询主语句
+     */
+    private CriteriaQuery<T> criteriaQuery;
+
+    /**
+     * Root 定义查询的From子句中能出现的类型
+     */
+    private Root<T> register;
+
     public BaseDaoImpl() {
         ResolvableType type = ResolvableType.forClass(this.getClass());
         ResolvableType generics = type.getSuperType().getGeneric(0);
         Class<?> resolve = generics.resolve();
-        clazz = (Class<T>) resolve;
+        this.clazz = (Class<T>) resolve;
+        this.criteriaBuilder = this.entityManager.getCriteriaBuilder();
+        this.criteriaQuery = this.criteriaBuilder.createQuery(clazz);
+        this.register = this.criteriaQuery.from(clazz);
     }
 
     public List<Object> executeCall(final String sql, final ProcedureParam[] args) {
@@ -50,6 +78,32 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     @Override
     public List<T> queryList(String sql, Object[] args) {
         return jdbcTemplate.query(sql, new ArgumentPreparedStatementSetter(args), new RowMapperResultSetExtractor<>(new BeanPropertyRowMapper<>(clazz)));
+    }
+
+    @Override
+    public List<T> queryList(Predicate[] predicates, Order order) {
+        this.criteriaQuery.where(predicates);
+        if(order != null){
+            this.criteriaQuery.orderBy(order);
+        }
+        TypedQuery<T> typedQuery = this.entityManager.createQuery(this.criteriaQuery);
+        return typedQuery.getResultList();
+    }
+
+    @Override
+    public List<T> queryListPage(Predicate[] predicates, Pageable pageable) {
+        this.criteriaQuery.where(predicates);
+        TypedQuery<T> typedQuery = this.entityManager.createQuery(this.criteriaQuery);
+        typedQuery.setFirstResult((int)(pageable.getOffset()+1)).setMaxResults(pageable.getPageSize() * pageable.getPageNumber());
+        return typedQuery.getResultList();
+    }
+
+    public CriteriaBuilder getCriteriaBuilder() {
+        return criteriaBuilder;
+    }
+
+    public Root<T> getRegister() {
+        return register;
     }
 
     public Class<T> getGenericClazz(){

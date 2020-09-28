@@ -10,7 +10,13 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,5 +83,32 @@ public class UserService {
     @Transactional
     public int deleteUserById(String UserId){
         return mUserRepository.deleteUserById4SQL(UserId);
+    }
+
+    public List<UserModel> getList(UserModel userModel){
+        List<Predicate> predicate=new ArrayList<>();
+        CriteriaBuilder cb = mUserRepository.getCriteriaBuilder();
+        Root<UserModel> register = mUserRepository.getRegister();
+        //身份证号
+        if (!StringUtils.isEmpty(userModel.getUserCardId())) {
+            predicate.add(cb.equal(register.<String> get("userCardId"), userModel.getUserCardId() ));
+        }
+
+        //姓名
+        if (!StringUtils.isEmpty(userModel.getUserName())) {
+            predicate.add(cb.like(register.get("userName"), '%' + userModel.getUserName() + '%'));
+        }
+
+        //性别
+        if (StringUtils.isEmpty(userModel.getUserSex())) {
+            predicate.add(cb.equal(register.<Integer> get("userSex"), userModel.getUserSex()));
+        }
+
+        //年龄
+        if (StringUtils.isEmpty(userModel.getUserAge())) {
+            predicate.add(cb.equal(register.<Integer> get("userAge"), userModel.getUserAge()));
+        }
+        Order order = cb.asc(register.<String> get("userId"));
+        return mUserRepository.queryList(predicate.toArray(new Predicate[0]), order);
     }
 }
