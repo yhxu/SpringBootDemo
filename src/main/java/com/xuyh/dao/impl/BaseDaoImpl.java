@@ -94,7 +94,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     public List<T> queryListPage(Predicate[] predicates, Pageable pageable) {
         this.criteriaQuery.where(predicates);
         TypedQuery<T> typedQuery = this.entityManager.createQuery(this.criteriaQuery);
-        typedQuery.setFirstResult((int)(pageable.getOffset()+1)).setMaxResults(pageable.getPageSize() * pageable.getPageNumber());
+        typedQuery.setFirstResult((int)(pageable.getOffset())).setMaxResults(pageable.getPageSize());
         return typedQuery.getResultList();
     }
 
