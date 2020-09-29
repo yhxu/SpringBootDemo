@@ -1,4 +1,4 @@
-package com.xuyh.controller;
+package com.xuyh.rabbit.controller;
 
 import com.xuyh.rabbit.senders.*;
 import org.springframework.beans.factory.annotation.Autowired;
