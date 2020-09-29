@@ -85,6 +85,11 @@ public class UserService {
         return mUserRepository.deleteUserById4SQL(UserId);
     }
 
+    /**
+     * select usermodel0_.userId as userId1_1_, usermodel0_.userAge as userAge2_1_, usermodel0_.UserCardId as UserCard3_1_, usermodel0_.userMail as userMail4_1_, usermodel0_.userName as userName5_1_, usermodel0_.userPhoneNumber as userPhon6_1_, usermodel0_.userSex as userSex7_1_ from USER usermodel0_ where usermodel0_.UserCardId=? and (usermodel0_.userName like ?) and (usermodel0_.userSex=? or usermodel0_.userSex=?) and usermodel0_.userAge=18 order by usermodel0_.userId asc
+     * @param userModel
+     * @return
+     */
     public List<UserModel> getList(UserModel userModel){
         List<Predicate> predicate=new ArrayList<>();
         CriteriaBuilder cb = mUserRepository.getCriteriaBuilder();
@@ -100,12 +105,14 @@ public class UserService {
         }
 
         //性别
-        if (StringUtils.isEmpty(userModel.getUserSex())) {
-            predicate.add(cb.equal(register.<Integer> get("userSex"), userModel.getUserSex()));
+        if (!StringUtils.isEmpty(userModel.getUserSex())) {
+            Predicate p1 = cb.equal(register.<String> get("userSex"), userModel.getUserSex());
+            Predicate p2 = cb.equal(register.<String> get("userSex"), userModel.getUserSex());
+            predicate.add(cb.or(p1, p2));
         }
 
         //年龄
-        if (StringUtils.isEmpty(userModel.getUserAge())) {
+        if (!StringUtils.isEmpty(userModel.getUserAge())) {
             predicate.add(cb.equal(register.<Integer> get("userAge"), userModel.getUserAge()));
         }
         Order order = cb.asc(register.<String> get("userId"));

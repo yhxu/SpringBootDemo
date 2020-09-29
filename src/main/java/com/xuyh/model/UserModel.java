@@ -20,7 +20,7 @@ public class UserModel implements Serializable{
 
     private String userId = "";
     private String userName = "";
-    private int userAge = 0;
+    private int userAge;
     private String userSex = "";
     private String userCardId = "";
     private String userPhoneNumber = "";

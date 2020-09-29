@@ -22,7 +22,6 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     /**
      * entityManager
      */
-    @Resource
     private EntityManager entityManager;
 
     /**
@@ -40,11 +39,12 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
      */
     private Root<T> register;
 
-    public BaseDaoImpl() {
+    public BaseDaoImpl(EntityManager entityManager) {
         ResolvableType type = ResolvableType.forClass(this.getClass());
         ResolvableType generics = type.getSuperType().getGeneric(0);
         Class<?> resolve = generics.resolve();
         this.clazz = (Class<T>) resolve;
+        this.entityManager = entityManager;
         this.criteriaBuilder = this.entityManager.getCriteriaBuilder();
         this.criteriaQuery = this.criteriaBuilder.createQuery(clazz);
         this.register = this.criteriaQuery.from(clazz);

@@ -1,9 +1,11 @@
 package com.xuyh.repository;
 
+import com.xuyh.dao.UserDao;
 import com.xuyh.model.UserModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @Version:
  */
 
-public interface UserRepository extends BaseRepository<UserModel, String>{
+public interface UserRepository extends JpaRepository<UserModel, String>, UserDao{
 
     /**
      * @Author: xuyh
