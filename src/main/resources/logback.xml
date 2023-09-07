@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="1000 seconds">
+	<conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+	<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+	<conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+	<property name="log.dir" value="logs/" />
+	<property name="log.filename" value="dcs" />
+
+	<!-- Output to Console -->
+	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout class="com.xuyh.logs.MaskingPatternLayout">
+				<pattern>${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(---){faint} %clr([%16.16t]){faint} %clr(%-40.40logger{39}){cyan}-%clr(%-4.4line){magenta} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}</pattern>
+			</layout>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<!-- 文件输出日志 (文件大小策略进行文件输出，超过指定大小对文件备份) -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.dir}${log.filename}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.dir}${log.filename}.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<maxHistory>10</maxHistory>
+			<cleanHistoryOnStart>true</cleanHistoryOnStart>
+			<timeBasedFileNamingAndTriggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>500MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout class="com.channelsoft.common.logs.MaskingPatternLayout">
+				<pattern>${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} --- [%16.16t] %-40.40logger{39}-%-4.4line : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}</pattern>
+			</layout>
+		</encoder>
+	</appender>
+
+	<!-- 文件输出日志 (文件大小策略进行文件输出，超过指定大小对文件备份) -->
+	<appender name="ERRORFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.dir}${log.filename}-error.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.dir}${log.filename}-error.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<maxHistory>10</maxHistory>
+			<cleanHistoryOnStart>true</cleanHistoryOnStart>
+			<timeBasedFileNamingAndTriggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>500MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout class="com.channelsoft.common.logs.MaskingPatternLayout">
+				<pattern>${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} --- [%16.16t] %-40.40logger{39}-%-4.4line : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}</pattern>
+			</layout>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+	<!-- 打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和  OFF 默认是DEBUG -->
+	<root level="info">
+		<appender-ref ref="Console" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="ERRORFILE" />
+	</root>
+	<logger name="com.channelsoft" level="TRACE" />
+	<logger name="org.springframework" level="WARN" />
+	<!--<logger name="org.springframework.web.servlet.DispatcherServlet" level="DEBUG" />-->
+</configuration>
