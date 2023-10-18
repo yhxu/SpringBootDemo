@@ -37,10 +37,16 @@ public class BeanController {
 //    @Resource(name = "myBeans1")
     private Beans beans;
 
+    @Autowired
+//    @Resource
+    private Map<String, Beans> beansMap;
+
     @GetMapping(value = "bean")
     public Map beanController(){
         beans.init();
         Beans beans = (Beans) MyBeanUtils.getBean("myBeans1");
+        beans.process();
+        beans = beansMap.get("myBeans1");
         beans.process();
         beans = MyBeanUtils.getBean(MyBeans2.class);
         beans.process();
